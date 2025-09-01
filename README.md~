@@ -1,1 +1,0 @@
-# quote-of-the-day
