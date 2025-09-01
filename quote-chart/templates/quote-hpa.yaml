@@ -1,0 +1,27 @@
+{{- if .Values.hpa.enabled -}}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: quote-app-hpa
+  namespace: quote-app-ns
+spec:
+  # This section points the HPA to the Deployment we want to scale.
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: quote-app-deployment
+  
+  # Define the scaling boundaries.
+  minReplicas: {{ .Values.hpa.minReplicas }}
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
+  
+  # Define the metrics and thresholds for scaling.
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        # We target an average utilization percentage across all pods.
+        type: Utilization
+        averageUtilization:  {{ .Values.hpa.targetCPUUtilizationPercentage }}
+{{- end -}}

@@ -1,0 +1,9 @@
+# quote-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quote-app-config
+  namespace: quote-app-ns
+data:
+  quotes.txt: |
+    {{- .Values.quotes | nindent 4 }}
