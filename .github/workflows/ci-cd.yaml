@@ -44,6 +44,10 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      
+      - name: check kubernetes cluster
+        run: |
+          kubectl get nodes -n quote-app-ns
 
       - name: Deploy with Helm
         run: |
