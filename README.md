@@ -10,8 +10,6 @@ kubectl apply -f quote-configmap.yaml
 
 kubectl get configmap quote-app-config -o yaml
 
-quote-app-deployment-64488f44cd-cmdkt no
-
 # Record HPA results
 1. kubectl get hpa -n quote-app-ns -w
 2. kubectl get pods -n quote-app-ns -w
@@ -52,3 +50,13 @@ helm uninstall quote-release --namespace quote-app-ns
 kubectl create namespace quote-app-ns
 helm install quote-release ./quote-chart --namespace quote-app-ns
 ```
+
+## Check security context
+POD_NAME=$(kubectl get pods -n quote-app-ns -l app=quote-app -o jsonpath='{.items[0].metadata.name}')
+
+kubectl get pod $POD_NAME -n quote-app-ns -o jsonpath='{.spec.containers[0].securityContext.runAsUser}'
+
+Should return 1001, not root.
+
+## Upgrade application
+helm upgrade quote-release ./quote-chart --set replicaCount=2 --set ingress.host="quotes.local" --namespace quote-app-ns

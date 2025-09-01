@@ -19,6 +19,11 @@ spec:
       - name: quote-app-container
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsUser: 1001
+          runAsGroup: 1001
         ports:
         - containerPort: 8080
         livenessProbe:
