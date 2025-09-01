@@ -7,12 +7,12 @@ spec:
   # This makes the Service reachable only from within the cluster.
   type:  {{ .Values.service.type }}
   selector:
-    # This selector must match the labels of the Pods in your Deployment.
+    # This selector must match the labels of the Pods in the Deployment.
     # It's how the Service discovers which Pods to send traffic to.
     app: quote-app
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}
       # The port on the Pods that traffic should be forwarded to.
-      # This must match the containerPort in your Deployment.
+      # This must match the containerPort in the Deployment.
       targetPort:  {{ .Values.service.targetPort }}

@@ -1,35 +1,25 @@
-# -- Number of pods to run
 replicaCount: 2
 
 image:
-  # -- The repository for the quote-api image
   repository: ionuut08/quote-api
-  # -- The image tag to use. Defaults to the chart's appVersion.
   tag: "1.0"
-  # -- The image pull policy
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  # -- The port the service will expose
   port: 80
   targetPort: 8080
 
 ingress:
-  # -- Enable or disable the Ingress resource
   enabled: true
-  # -- The hostname for the Ingress rule
   host: quotes.local
 
 hpa:
-  # -- Enable or disable the HPA resource
   enabled: true
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
 
-# -- The full list of quotes to be loaded into the ConfigMap.
-# The '|' allows for a multi-line string.
 quotes: |
   The only way to do great work is to love what you do.|Steve Jobs
   Strive not to be a success, but rather to be of value.|Albert Einstein
