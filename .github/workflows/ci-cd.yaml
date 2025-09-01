@@ -33,25 +33,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Setup Helm
-        uses: azure/setup-helm@v4
-        with:
-          version: 'v3.13.2' 
-
-      - name: Set Kubernetes context
-        uses: azure/k8s-set-context@v4
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
-      
-      - name: check kubernetes cluster
-        run: |
-          kubectl get nodes -n quote-app-ns
-
-      - name: Deploy with Helm
-        run: |
-          helm upgrade --install quote-release ./quote-chart \
-            --namespace quote-app-ns \
-            --set image.tag=${{ steps.meta.outputs.tags }} \
-            --wait
